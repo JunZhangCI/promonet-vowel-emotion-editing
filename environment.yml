@@ -1,0 +1,24 @@
+name: promonet
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  # pyworld 0.3.4 still imports pkg_resources, removed in setuptools 82.
+  - setuptools<82
+  # Install the compatible PyTorch/TorchCodec/Torbi binaries with the commands
+  # in the notebook. Their versions must match the PyTorch ABI.
+  - git
+  - ffmpeg
+  - jupyterlab
+  - ipykernel
+  - ipywidgets
+  - matplotlib
+  - pandas
+  # MoviePy 2.2.1 requires Pillow below 12.
+  - pillow<12
+  # Transformers audio utilities import soxr for high-quality resampling.
+  - soxr
+  - pip:
+      # Read long- and short-format Praat TextGrid files.
+      - praatio
