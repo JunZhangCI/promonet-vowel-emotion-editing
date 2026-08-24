@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A controllable ProMoNet pipeline for transferring emotion cues within aligned vowels.">
+  <meta property="og:title" content="Vowel-Level Emotion Editing with ProMoNet">
+  <meta property="og:description" content="A controllable pipeline for transferring emotion cues within aligned vowels.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://junzhangci.github.io/promonet-vowel-emotion-editing/">
+  <meta property="og:image" content="https://junzhangci.github.io/promonet-vowel-emotion-editing/images/og-vowel-emotion.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vowel-Level Emotion Editing with ProMoNet, shown with stylized speech waveforms and acoustic trajectories.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vowel-Level Emotion Editing with ProMoNet">
+  <meta name="twitter:description" content="A controllable pipeline for transferring emotion cues within aligned vowels.">
+  <meta name="twitter:image" content="https://junzhangci.github.io/promonet-vowel-emotion-editing/images/og-vowel-emotion.jpg">
+  <meta name="theme-color" content="#071a2f">
+  <title>Vowel-Level Emotion Editing with ProMoNet</title>
+  <link rel="stylesheet" href="./simple.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="ProMoNet vowel editing home">
+      <span class="brand-mark" aria-hidden="true">VE</span>
+      <span>Vowel Emotion Lab</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+    <nav id="primary-nav" aria-label="Primary navigation">
+      <a href="#overview">Overview</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#interfaces">Interfaces</a>
+      <a href="#listen">Listen</a>
+      <a href="#results">Results</a>
+      <a class="nav-cta" href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing">View code</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Interactive speech editing research prototype</p>
+        <h1>Vowel-Level Emotion Editing with ProMoNet</h1>
+        <p class="hero-lede">A controllable pipeline for transferring pitch, loudness, periodicity, duration, and phonetic features from an emotional donor to selected vowels in neutral speech.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#listen">Hear the edits</a>
+          <a class="button button-secondary" href="#interfaces">Explore the workflow</a>
+        </div>
+        <p class="byline">Jun Zhang · Northwestern University · Project mentor: Annie Chu</p>
+      </div>
+      <aside class="signal-card" aria-label="Project dataset summary">
+        <p class="signal-label">Validation set</p>
+        <strong>398</strong>
+        <span>natural and generated recordings</span>
+        <div class="signal-bars" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <dl>
+          <div><dt>ProMoNet</dt><dd>149</dd></div>
+          <div><dt>Praat</dt><dd>99</dd></div>
+          <div><dt>Natural</dt><dd>150</dd></div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="section intro" id="overview">
+      <div>
+        <p class="section-kicker">Why vowel-level editing?</p>
+        <h2>Make emotional prosody measurable—and controllable.</h2>
+      </div>
+      <div class="intro-copy">
+        <p>Emotion emerges from coordinated changes in pitch, loudness, timing, and voice quality. Conventional recordings make these cues difficult to isolate because they naturally change together.</p>
+        <p>This project uses ProMoNet to manipulate selected cues inside aligned vowels while retaining surrounding consonants and sentence content.</p>
+      </div>
+    </section>
+
+    <section class="section snapshot" aria-labelledby="snapshot-title">
+      <div class="section-heading">
+        <p class="section-kicker">Project at a glance</p>
+        <h2 id="snapshot-title">Local control without rewriting the utterance.</h2>
+      </div>
+      <div class="snapshot-grid">
+        <article><span>Input</span><h3>Sentence-matched speech</h3><p>Neutral, happy, and sad recordings with manually corrected Montreal Forced Aligner TextGrids.</p></article>
+        <article><span>Control</span><h3>Five donor features</h3><p>Select individual vowels and transfer pitch, loudness, periodicity, duration, or PPG.</p></article>
+        <article><span>Output</span><h3>Auditable synthesis</h3><p>Export an edited WAV, feature tensors, and a per-vowel record of every transferred cue.</p></article>
+      </div>
+      <aside class="finding-banner">
+        <span class="finding-label">Main finding</span>
+        <p>Happy-target edits moved consistently toward natural happy speech. Sad-target edits showed no reliable directional improvement, identifying sad-emotion transfer as the main area for refinement.</p>
+      </aside>
+    </section>
+
+    <section class="section workflow" id="workflow">
+      <div class="section-heading">
+        <p class="section-kicker">Donor-transfer workflow</p>
+        <h2>One neutral base. One emotional donor. Five controlled steps.</h2>
+        <p>The recordings must share the same ordered vowel sequence, preventing transfer between unrelated speech segments.</p>
+      </div>
+      <ol class="flow-list">
+        <li><span>01</span><div><h3>Align</h3><p>Read vowel intervals from corrected TextGrids and verify sequence correspondence.</p></div></li>
+        <li><span>02</span><div><h3>Extract</h3><p>Convert boundaries to frames and extract pitch, loudness, periodicity, duration, and PPG.</p></div></li>
+        <li><span>03</span><div><h3>Select</h3><p>Choose the vowels and donor features to transfer in the notebook interface.</p></div></li>
+        <li><span>04</span><div><h3>Transfer</h3><p>Replace selected neutral segments, resampling trajectories when neutral timing is retained.</p></div></li>
+        <li><span>05</span><div><h3>Synthesize</h3><p>Reconstruct with the chosen ProMoNet voice and save the waveform and audit artifacts.</p></div></li>
+      </ol>
+      <div class="feature-strip" aria-label="Transferable donor features">
+        <span>Pitch</span><span>Loudness</span><span>Periodicity</span><span>Duration</span><span>PPG</span>
+      </div>
+      <p class="technical-note"><strong>Boundary behavior:</strong> an optional taper blends continuous acoustic features into the neutral context. PPG uses a direct splice because it represents categorical phonetic information.</p>
+    </section>
+
+    <section class="section" id="interfaces">
+      <div class="section-heading">
+        <p class="section-kicker">Two guided interfaces</p>
+        <h2>Adapt a voice, then design an edit.</h2>
+      </div>
+      <div class="interface-grid">
+        <article class="interface-card">
+          <div class="card-number">01</div>
+          <div class="card-copy">
+            <h3>Speaker adaptation</h3>
+            <p>Choose recordings, set a training target, resume managed runs, and confirm the resulting checkpoint.</p>
+          </div>
+          <img src="./images/speaker_adaptation_interface.png" alt="Speaker-adaptation notebook interface with recording and training controls." loading="lazy">
+        </article>
+        <article class="interface-card">
+          <div class="card-number">02</div>
+          <div class="card-copy">
+            <h3>Vowel editor</h3>
+            <p>Pair neutral and donor recordings, select aligned vowels, choose donor features, and synthesize the result.</p>
+          </div>
+          <img src="./images/vowel_edit_interface.png" alt="Vowel-level editing notebook interface with aligned recordings and donor-feature controls." loading="lazy">
+        </article>
+      </div>
+      <div class="interface-notes">
+        <article><h3>Adaptation in four steps</h3><ol><li>Name the speaker run.</li><li>Select varied recordings.</li><li>Set target and checkpoint steps.</li><li>Train or resume, then refresh the model list.</li></ol></article>
+        <article><h3>Editing controls</h3><dl><div><dt>Duration</dt><dd>Adopts donor timing</dd></div><div><dt>Pitch, loudness, periodicity</dt><dd>Support tapered boundaries</dd></div><div><dt>PPG</dt><dd>Uses a direct splice</dd></div></dl></article>
+      </div>
+    </section>
+
+    <section class="section listen-preview" id="listen">
+      <div class="section-heading">
+        <p class="section-kicker">Sentence-matched demonstration</p>
+        <h2>Listen before and after.</h2>
+        <p>Start with the neutral recording, compare the happy donor, then hear the ProMoNet reconstruction.</p>
+      </div>
+      <div class="audio-grid audio-grid-three">
+        <article class="audio-card"><span class="audio-tag">Reference</span><h3>Neutral original</h3><audio controls preload="metadata" src="./audio/neu_original.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card"><span class="audio-tag audio-tag-warm">Donor</span><h3>Happy original</h3><audio controls preload="metadata" src="./audio/hap_original.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card"><span class="audio-tag audio-tag-blue">Baseline</span><h3>Neutral reconstruction</h3><audio controls preload="metadata" src="./audio/neu_reconstruct.wav">Your browser does not support audio.</audio></article>
+      </div>
+      <div class="edits-heading">
+        <p class="section-kicker">Controlled edits</p>
+        <h3>Change one cue—or transfer them together.</h3>
+        <p>These examples use the same happy donor, all aligned vowels, and a 0 ms boundary taper.</p>
+      </div>
+      <div class="audio-grid edit-grid">
+        <article class="audio-card"><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Pitch only</h3><p>Transfers the donor fundamental-frequency trajectory.</p><audio controls preload="metadata" src="./audio/neu-to-hap_pitch.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card"><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Loudness only</h3><p>Transfers the donor energy trajectory.</p><audio controls preload="metadata" src="./audio/neu-to-hap_loudness.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card"><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Periodicity only</h3><p>Transfers the donor degree of voiced excitation.</p><audio controls preload="metadata" src="./audio/neu-to-hap_periodicity.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card"><span class="audio-tag audio-tag-warm">Timing</span><h3>Duration only</h3><p>Adopts the duration of each donor vowel.</p><audio controls preload="metadata" src="./audio/neu-to-hap_duration.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card"><span class="audio-tag">Phonetic</span><h3>PPG only</h3><p>Transfers the donor phonetic posteriorgram.</p><audio controls preload="metadata" src="./audio/neu-to-hap_ppg.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card audio-card-featured"><span class="audio-tag audio-tag-warm">Combined</span><h3>All donor features</h3><p>Transfers pitch, loudness, periodicity, duration, and PPG together.</p><audio controls preload="metadata" src="./audio/neu-to-hap_all.wav">Your browser does not support audio.</audio></article>
+      </div>
+    </section>
+
+    <section class="section trajectories" id="trajectories">
+      <div class="section-heading">
+        <p class="section-kicker">Feature trajectories</p>
+        <h2>See exactly what changed.</h2>
+        <p>Orange shows the donor, blue the neutral base, and green the edited output. Shaded bands mark aligned vowel regions.</p>
+      </div>
+      <div class="trajectory-tabs" role="tablist" aria-label="Trajectory condition">
+        <button id="tab-pitch" type="button" role="tab" aria-controls="trajectory-panel" aria-selected="true" data-image="./images/trajectory_pitch.png" data-alt="Pitch-only transfer trajectories for pitch, loudness, and periodicity." data-caption="Pitch-only edit: edited pitch follows the donor inside selected vowels.">Pitch</button>
+        <button id="tab-loudness" type="button" role="tab" aria-controls="trajectory-panel" aria-selected="false" tabindex="-1" data-image="./images/trajectory_loudness.png" data-alt="Loudness-only transfer trajectories for pitch, loudness, and periodicity." data-caption="Loudness-only edit: edited loudness follows the donor while other trajectories remain neutral.">Loudness</button>
+        <button id="tab-periodicity" type="button" role="tab" aria-controls="trajectory-panel" aria-selected="false" tabindex="-1" data-image="./images/trajectory_periodicity.png" data-alt="Periodicity-only transfer trajectories for pitch, loudness, and periodicity." data-caption="Periodicity-only edit: edited periodicity follows the donor inside selected vowels.">Periodicity</button>
+        <button id="tab-all" type="button" role="tab" aria-controls="trajectory-panel" aria-selected="false" tabindex="-1" data-image="./images/trajectory_all.png" data-alt="All-feature donor transfer trajectories for pitch, loudness, and periodicity." data-caption="All-feature edit: the acoustic and phonetic donor features are transferred together.">All features</button>
+      </div>
+      <figure id="trajectory-panel" class="trajectory-frame" role="tabpanel" aria-labelledby="tab-pitch">
+        <img id="trajectory-image" src="./images/trajectory_pitch.png" alt="Pitch-only transfer trajectories for pitch, loudness, and periodicity." loading="lazy">
+        <figcaption id="trajectory-caption">Pitch-only edit: edited pitch follows the donor inside selected vowels.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section results" id="results">
+      <div class="section-heading">
+        <p class="section-kicker">Objective validation</p>
+        <h2>Sentence-matched movement in emotion space.</h2>
+        <p>All 398 recordings were scored with audEERING’s dimensional emotion model. Each edit was paired by speaker and sentence with its natural happy or sad target.</p>
+      </div>
+      <div class="metric-grid">
+        <article><span>ProMoNet · Happy</span><strong>+0.128</strong><p>median target gain</p></article>
+        <article><span>Praat · Happy</span><strong>+0.108</strong><p>median target gain</p></article>
+        <article><span>ProMoNet · Sad</span><strong>−0.002</strong><p>median target gain</p></article>
+        <article><span>Praat · Sad</span><strong>−0.011</strong><p>median target gain</p></article>
+      </div>
+      <div class="result-layout">
+        <figure class="result-figure">
+          <a href="./images/emotion_validation_figure.png" aria-label="Open full-size validation figure">
+            <img src="./images/emotion_validation_figure.png" alt="Three-panel validation plot with happy target gain, sad target gain, and arousal-valence space." loading="lazy">
+          </a>
+          <figcaption>Left: happy-target gain. Center: sad-target gain. Right: audEERING arousal-valence space.</figcaption>
+        </figure>
+        <div class="result-copy">
+          <article><span class="result-dot result-dot-happy"></span><div><h3>Happy targets</h3><p>Both systems moved consistently toward natural happy speech. ProMoNet showed the larger median gain from its reconstruction baseline; Praat had the smaller absolute distance to the target.</p></div></article>
+          <article><span class="result-dot result-dot-sad"></span><div><h3>Sad targets</h3><p>Neither system showed consistent movement toward natural sad speech. Both bootstrap confidence intervals included zero.</p></div></article>
+        </div>
+      </div>
+      <div class="table-wrap" tabindex="0" aria-label="Scrollable validation result table">
+        <table>
+          <thead><tr><th>Target</th><th>System</th><th>N</th><th>Median gain</th><th>95% bootstrap CI</th><th>Positive gain</th><th>Median target distance</th></tr></thead>
+          <tbody>
+            <tr><td>Happy</td><td>ProMoNet</td><td>49</td><td>0.1283</td><td>[0.0836, 0.1521]</td><td>91.8%</td><td>0.1484</td></tr>
+            <tr><td>Happy</td><td>Praat</td><td>49</td><td>0.1077</td><td>[0.0812, 0.1229]</td><td>95.9%</td><td>0.0846</td></tr>
+            <tr><td>Sad</td><td>ProMoNet</td><td>50</td><td>−0.0022</td><td>[−0.0271, 0.0086]</td><td>48.0%</td><td>0.1007</td></tr>
+            <tr><td>Sad</td><td>Praat</td><td>50</td><td>−0.0105</td><td>[−0.0336, 0.0012]</td><td>38.0%</td><td>0.1168</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="technical-note"><strong>Interpretation limit:</strong> this validation includes one female native speaker of American English. The bootstrap intervals describe variation across this speaker’s sentences and do not support speaker-general conclusions.</p>
+    </section>
+
+    <section class="section resources" id="resources">
+      <div>
+        <p class="section-kicker">Reproduce the workflow</p>
+        <h2>Code, notebooks, and analysis.</h2>
+        <p>The public repository contains the two interfaces, the Praat baseline, audEERING scoring and analysis notebooks, and the environment specification.</p>
+        <a class="button button-primary" href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing">Open the GitHub repository</a>
+      </div>
+      <ul class="resource-list">
+        <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/vowel_edit_pipeline/speaker_adaptation.ipynb"><span>Interface</span>Speaker adaptation notebook</a></li>
+        <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/vowel_edit_pipeline/vowel_edit_pipeline.ipynb"><span>Interface</span>Vowel-editing notebook</a></li>
+        <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/analysis/audeering_emotion_analysis.ipynb"><span>Analysis</span>Emotion-distance notebook</a></li>
+        <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/praat_pipeline/vowel_edit_baseline.praat"><span>Baseline</span>Praat editing script</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-credit">
+      <p>© <span id="year">2026</span> Jun Zhang · Northwestern University</p>
+      <p class="ai-credit">Code development and website creation were supported by ChatGPT 5.6.</p>
+    </div>
+    <div class="footer-links"><a href="mailto:junzhang2030@u.northwestern.edu">Contact</a><a href="https://doi.org/10.21437/Interspeech.2024-2351">ProMoNet paper</a><a href="https://doi.org/10.1109/TPAMI.2023.3263585">audEERING model paper</a></div>
+  </footer>
+  <script src="./script.js"></script>
+</body>
+</html>
