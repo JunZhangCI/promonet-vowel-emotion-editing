@@ -77,7 +77,6 @@
         <aside class="llm-rationale">
           <strong>Why not prompt-only emotional TTS?</strong>
           Prompt-based systems can request a broad delivery such as “happy” or “sad,” but the result depends on the selected model, voice, prompt context, and generation settings. They do not reveal which vowel changed, which acoustic cue caused the change, or whether the same local edit can be repeated. ProMoNet instead exposes vowel-level pitch, loudness, periodicity, duration, and PPG controls and saves an audit record for every transfer.
-          <span class="prompt-example">[happy] The wrong shot led the farm.</span>
         </aside>
       </div>
     </section>
@@ -328,7 +327,7 @@
       </div>
       <div class="result-subsection">
         <h3>Paired pipeline comparison</h3>
-        <p>The medians above remain descriptive. The requested two-sided paired t-tests compare mean target gain between systems after matching the same sentence. Neither emotion shows a statistically significant ProMoNet–Praat difference.</p>
+        <p>Two-sided paired t-tests were conducted to compare mean target gain between systems after matching the same sentence. Neither emotion shows a statistically significant ProMoNet–Praat difference.</p>
         <div class="table-wrap" tabindex="0" aria-label="Paired t-test results comparing target gain between pipelines">
           <table>
             <thead><tr><th>Target</th><th>Pairs</th><th>ProMoNet median</th><th>Praat median</th><th>Mean paired difference</th><th>t(df)</th><th>Two-sided p</th></tr></thead>
