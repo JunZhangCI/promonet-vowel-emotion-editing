@@ -14,7 +14,12 @@ dependencies:
   - ipykernel
   - ipywidgets
   - matplotlib
+  - numpy=1.26
   - pandas
+  - scipy=1.13
+  - librosa=0.10.2
+  - soundfile=0.12.1
+  - tqdm=4.67.1
   # MoviePy 2.2.1 requires Pillow below 12.
   - pillow<12
   # Transformers audio utilities import soxr for high-quality resampling.

@@ -33,6 +33,7 @@
       <a href="#workflow">Workflow</a>
       <a href="#interfaces">Interfaces</a>
       <a href="#listen">Listen</a>
+      <a href="#quality">Quality</a>
       <a href="#results">Results</a>
       <a class="nav-cta" href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing">View code</a>
     </nav>
@@ -73,6 +74,11 @@
       <div class="intro-copy">
         <p>Emotion emerges from coordinated changes in pitch, loudness, timing, and voice quality. Conventional recordings make these cues difficult to isolate because they naturally change together.</p>
         <p>This project uses ProMoNet to manipulate selected cues inside aligned vowels while retaining surrounding consonants and sentence content.</p>
+        <aside class="llm-rationale">
+          <strong>Why not prompt-only emotional TTS?</strong>
+          Prompt-based systems can request a broad delivery such as “happy” or “sad,” but the result depends on the selected model, voice, prompt context, and generation settings. They do not reveal which vowel changed, which acoustic cue caused the change, or whether the same local edit can be repeated. ProMoNet instead exposes vowel-level pitch, loudness, periodicity, duration, and PPG controls and saves an audit record for every transfer.
+          <span class="prompt-example">[happy] The wrong shot led the farm.</span>
+        </aside>
       </div>
     </section>
 
@@ -144,12 +150,24 @@
       <div class="section-heading">
         <p class="section-kicker">Sentence-matched demonstration</p>
         <h2>Listen before and after.</h2>
-        <p>Start with the neutral recording, compare the happy donor, then hear the ProMoNet reconstruction.</p>
+        <p>All examples use sentence 47_01. Each player is paired with the same-scale spectrogram and its DNSMOS Pro predicted speech-quality MOS.</p>
       </div>
       <div class="audio-grid audio-grid-three">
-        <article class="audio-card"><span class="audio-tag">Reference</span><h3>Neutral original</h3><audio controls preload="metadata" src="./audio/neu_original.wav">Your browser does not support audio.</audio></article>
-        <article class="audio-card"><span class="audio-tag audio-tag-warm">Donor</span><h3>Happy original</h3><audio controls preload="metadata" src="./audio/hap_original.wav">Your browser does not support audio.</audio></article>
-        <article class="audio-card"><span class="audio-tag audio-tag-blue">Baseline</span><h3>Neutral reconstruction</h3><audio controls preload="metadata" src="./audio/neu_reconstruct.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag">Reference</span><h3>Neutral original</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.08 / 5</span></div>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu_original_spectrogram.png" alt="Spectrogram of the neutral original recording." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu_original.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-warm">Donor</span><h3>Happy original</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.56 / 5</span></div>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/hap_original_spectrogram.png" alt="Spectrogram of the natural happy donor recording." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/hap_original.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-blue">Baseline</span><h3>Neutral reconstruction</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.95 / 5</span></div>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu_reconstruct_spectrogram.png" alt="Spectrogram of the ProMoNet neutral reconstruction." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu_reconstruct.wav">Your browser does not support audio.</audio>
+        </article>
       </div>
       <div class="edits-heading">
         <p class="section-kicker">Controlled edits</p>
@@ -157,13 +175,84 @@
         <p>These examples use the same happy donor, all aligned vowels, and a 0 ms boundary taper.</p>
       </div>
       <div class="audio-grid edit-grid">
-        <article class="audio-card"><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Pitch only</h3><p>Transfers the donor fundamental-frequency trajectory.</p><audio controls preload="metadata" src="./audio/neu-to-hap_pitch.wav">Your browser does not support audio.</audio></article>
-        <article class="audio-card"><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Loudness only</h3><p>Transfers the donor energy trajectory.</p><audio controls preload="metadata" src="./audio/neu-to-hap_loudness.wav">Your browser does not support audio.</audio></article>
-        <article class="audio-card"><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Periodicity only</h3><p>Transfers the donor degree of voiced excitation.</p><audio controls preload="metadata" src="./audio/neu-to-hap_periodicity.wav">Your browser does not support audio.</audio></article>
-        <article class="audio-card"><span class="audio-tag audio-tag-warm">Timing</span><h3>Duration only</h3><p>Adopts the duration of each donor vowel.</p><audio controls preload="metadata" src="./audio/neu-to-hap_duration.wav">Your browser does not support audio.</audio></article>
-        <article class="audio-card"><span class="audio-tag">Phonetic</span><h3>PPG only</h3><p>Transfers the donor phonetic posteriorgram.</p><audio controls preload="metadata" src="./audio/neu-to-hap_ppg.wav">Your browser does not support audio.</audio></article>
-        <article class="audio-card audio-card-featured"><span class="audio-tag audio-tag-warm">Combined</span><h3>All donor features</h3><p>Transfers pitch, loudness, periodicity, duration, and PPG together.</p><audio controls preload="metadata" src="./audio/neu-to-hap_all.wav">Your browser does not support audio.</audio></article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Pitch only</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.84 / 5</span></div>
+          <p>Transfers the donor fundamental-frequency trajectory.</p>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu-to-hap_pitch_spectrogram.png" alt="Spectrogram of the pitch-only happy edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu-to-hap_pitch.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Loudness only</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.61 / 5</span></div>
+          <p>Transfers the donor energy trajectory.</p>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu-to-hap_loudness_spectrogram.png" alt="Spectrogram of the loudness-only happy edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu-to-hap_loudness.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-blue">Acoustic</span><h3>Periodicity only</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.87 / 5</span></div>
+          <p>Transfers the donor degree of voiced excitation.</p>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu-to-hap_periodicity_spectrogram.png" alt="Spectrogram of the periodicity-only happy edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu-to-hap_periodicity.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-warm">Timing</span><h3>Duration only</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.76 / 5</span></div>
+          <p>Adopts the duration of each donor vowel.</p>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu-to-hap_duration_spectrogram.png" alt="Spectrogram of the duration-only happy edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu-to-hap_duration.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag">Phonetic</span><h3>PPG only</h3></div><span class="mos-score">DNSMOS Pro MOS: 3.06 / 5</span></div>
+          <p>Transfers the donor phonetic posteriorgram.</p>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu-to-hap_ppg_spectrogram.png" alt="Spectrogram of the PPG-only happy edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu-to-hap_ppg.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card audio-card-featured">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-warm">Combined</span><h3>All donor features</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.85 / 5</span></div>
+          <p>Transfers pitch, loudness, periodicity, duration, and PPG together.</p>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/neu-to-hap_all_spectrogram.png" alt="Spectrogram of the all-feature ProMoNet happy edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/neu-to-hap_all.wav">Your browser does not support audio.</audio>
+        </article>
       </div>
+      <div class="edits-heading">
+        <p class="section-kicker">Praat comparison</p>
+        <h3>Two conventional resynthesis baselines.</h3>
+        <p>Both files use the matching sentence 47_01 and transfer donor pitch, loudness, and duration contours.</p>
+      </div>
+      <div class="audio-grid praat-grid">
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-warm">Praat baseline</span><h3>Neutral to happy</h3></div><span class="mos-score">DNSMOS Pro MOS: 1.49 / 5</span></div>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/praat_neu-to-hap_spectrogram.png" alt="Spectrogram of the Praat neutral-to-happy edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/praat_neu-to-hap.wav">Your browser does not support audio.</audio>
+        </article>
+        <article class="audio-card">
+          <div class="audio-card-head"><div><span class="audio-tag audio-tag-blue">Praat baseline</span><h3>Neutral to sad</h3></div><span class="mos-score">DNSMOS Pro MOS: 2.06 / 5</span></div>
+          <figure class="audio-spectrogram"><img src="./images/spectrograms/praat_neu-to-sad_spectrogram.png" alt="Spectrogram of the Praat neutral-to-sad edit." loading="lazy"></figure>
+          <audio controls preload="metadata" src="./audio/praat_neu-to-sad.wav">Your browser does not support audio.</audio>
+        </article>
+      </div>
+    </section>
+
+    <section class="section quality" id="quality">
+      <div class="quality-summary">
+        <div class="section-heading">
+          <p class="section-kicker">Predicted speech quality</p>
+          <h2>DNSMOS Pro across every condition.</h2>
+          <p>Higher predicted MOS indicates better perceived speech quality on the model’s 1–5 scale. These values describe quality, not transcription accuracy or emotion strength.</p>
+        </div>
+        <div>
+          <div class="table-wrap quality-table" tabindex="0" aria-label="Average DNSMOS Pro score by pipeline and emotion condition">
+            <table>
+              <thead><tr><th>Pipeline</th><th>Neutral</th><th>Happy</th><th>Sad</th></tr></thead>
+              <tbody>
+                <tr><td>Original audio</td><td>2.381</td><td>2.718</td><td>2.563</td></tr>
+                <tr><td>Vowel-edit pipeline</td><td>2.120</td><td>2.169</td><td>2.144</td></tr>
+                <tr><td>Praat pipeline</td><td>—</td><td>2.087</td><td>2.123</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="quality-legend">Means use 50 original trials per emotion; 50 neutral reconstructions; 49 happy and 50 sad edits per pipeline. Happy sentence 39 is excluded because its aligned vowel sequence does not match.</p>
+        </div>
+      </div>
+      <p class="technical-note"><strong>Method:</strong> the NISQA-trained DNSMOS Pro checkpoint was pinned to commit <code>72f0fa4</code>. Audio was converted to mono 16 kHz, repetitively extended or cropped to 10 seconds, and scored with the model’s recommended STFT input. The displayed score is the predicted MOS mean; model variance is retained in the CSV files.</p>
     </section>
 
     <section class="section trajectories" id="trajectories">
@@ -187,7 +276,25 @@
     <section class="section results" id="results">
       <div class="section-heading">
         <p class="section-kicker">Objective validation</p>
-        <h2>Sentence-matched movement in emotion space.</h2>
+        <h2>Original-trial check.</h2>
+        <p>Before evaluating the edits, the 150 natural recordings establish how well audEERING represents the three original emotion conditions.</p>
+      </div>
+      <div class="original-validation">
+        <figure class="result-figure">
+          <a href="./images/original_arousal_valence_space.png" aria-label="Open full-size original-only arousal-valence figure">
+            <img src="./images/original_arousal_valence_space.png" alt="Arousal-valence scatter plot of 150 original recordings with emotion centroids and 50 percent covariance data ellipses." loading="lazy">
+          </a>
+          <figcaption>Fifty original trials per emotion. Diamonds mark centroids; shaded covariance ellipses enclose 50% of each group under a bivariate-normal contour.</figcaption>
+        </figure>
+        <div class="original-validation-copy">
+          <h3>Strong signal, with a useful limit.</h3>
+          <p>The happy originals form a clearly elevated arousal cluster, showing that audEERING captures the strongest emotion contrast well in these recordings.</p>
+          <p>Neutral and sad centroids also move in the expected direction, but their ellipses overlap. The model is therefore informative for this validation without implying perfect categorical classification.</p>
+        </div>
+      </div>
+      <div class="result-subsection">
+        <p class="section-kicker">Edited-trial comparison</p>
+        <h3>Sentence-matched movement in emotion space.</h3>
         <p>All 398 recordings were scored with audEERING’s dimensional emotion model. Each edit was paired by speaker and sentence with its natural happy or sad target.</p>
       </div>
       <div class="metric-grid">
@@ -201,7 +308,7 @@
           <a href="./images/emotion_validation_figure.png" aria-label="Open full-size validation figure">
             <img src="./images/emotion_validation_figure.png" alt="Three-panel validation plot with happy target gain, sad target gain, and arousal-valence space." loading="lazy">
           </a>
-          <figcaption>Left: happy-target gain. Center: sad-target gain. Right: audEERING arousal-valence space.</figcaption>
+          <figcaption>Left and center: sentence-level target gains with median/bootstrap summaries and paired pipeline tests. Right: audEERING arousal-valence space for all systems.</figcaption>
         </figure>
         <div class="result-copy">
           <article><span class="result-dot result-dot-happy"></span><div><h3>Happy targets</h3><p>Both systems moved consistently toward natural happy speech. ProMoNet showed the larger median gain from its reconstruction baseline; Praat had the smaller absolute distance to the target.</p></div></article>
@@ -219,6 +326,19 @@
           </tbody>
         </table>
       </div>
+      <div class="result-subsection">
+        <h3>Paired pipeline comparison</h3>
+        <p>The medians above remain descriptive. The requested two-sided paired t-tests compare mean target gain between systems after matching the same sentence. Neither emotion shows a statistically significant ProMoNet–Praat difference.</p>
+        <div class="table-wrap" tabindex="0" aria-label="Paired t-test results comparing target gain between pipelines">
+          <table>
+            <thead><tr><th>Target</th><th>Pairs</th><th>ProMoNet median</th><th>Praat median</th><th>Mean paired difference</th><th>t(df)</th><th>Two-sided p</th></tr></thead>
+            <tbody>
+              <tr><td>Happy</td><td>49</td><td>0.1283</td><td>0.1077</td><td>+0.0130</td><td>1.27 (48)</td><td>0.209</td></tr>
+              <tr><td>Sad</td><td>50</td><td>−0.0022</td><td>−0.0105</td><td>+0.0130</td><td>0.90 (49)</td><td>0.375</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <p class="technical-note"><strong>Interpretation limit:</strong> this validation includes one female native speaker of American English. The bootstrap intervals describe variation across this speaker’s sentences and do not support speaker-general conclusions.</p>
     </section>
 
@@ -226,13 +346,15 @@
       <div>
         <p class="section-kicker">Reproduce the workflow</p>
         <h2>Code, notebooks, and analysis.</h2>
-        <p>The public repository contains the two interfaces, the Praat baseline, audEERING scoring and analysis notebooks, and the environment specification.</p>
+        <p>The public repository contains the two interfaces, the Praat baseline, DNSMOS Pro quality analysis, audEERING scoring and statistics, and the environment specification.</p>
         <a class="button button-primary" href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing">Open the GitHub repository</a>
       </div>
       <ul class="resource-list">
         <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/vowel_edit_pipeline/speaker_adaptation.ipynb"><span>Interface</span>Speaker adaptation notebook</a></li>
         <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/vowel_edit_pipeline/vowel_edit_pipeline.ipynb"><span>Interface</span>Vowel-editing notebook</a></li>
         <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/analysis/audeering_emotion_analysis.ipynb"><span>Analysis</span>Emotion-distance notebook</a></li>
+        <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/analysis/dnsmos_all_audio_analysis.ipynb"><span>Analysis</span>All-audio DNSMOS notebook</a></li>
+        <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/analysis/dnsmos_web_examples.ipynb"><span>Analysis</span>Web-example DNSMOS notebook</a></li>
         <li><a href="https://github.com/JunZhangCI/promonet-vowel-emotion-editing/blob/main/praat_pipeline/vowel_edit_baseline.praat"><span>Baseline</span>Praat editing script</a></li>
       </ul>
     </section>

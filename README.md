@@ -5,7 +5,8 @@ This repository provides two Jupyter notebook interfaces for:
 1. adapting ProMoNet to a target speaker; and
 2. editing selected vowels in a neutral recording with features taken from a sentence-matched emotional donor recording.
 
-This README covers environment setup and use of the interfaces only.
+This README covers environment setup, the two interfaces, and the objective
+DNSMOS Pro and audEERING analyses used by the project website.
 
 ## Requirements
 
@@ -167,6 +168,59 @@ The notebook plays both the reconstructed neutral baseline and edited result, pl
 - an edited `.wav` file;
 - an `_audit.csv` file describing each vowel edit; and
 - a `_features.pt` bundle containing the edited ProMoNet tensors and metadata.
+
+## 3. Objective analysis and website assets
+
+### DNSMOS Pro predicted speech quality
+
+DNSMOS Pro predicts a speech-quality mean opinion score (MOS); it is not a
+speech-recognition intelligibility test. The analysis uses the NISQA checkpoint
+from DNSMOSPro commit `72f0fa4f71a41e70f12718be214665b1bf4fcbec`.
+The first run downloads that pinned checkpoint into `.cache/dnsmospro/`.
+
+Before scoring the website examples, copy the sentence-47_01 Praat outputs to
+the fixed names expected by the manifest:
+
+```powershell
+Copy-Item "outputs/praat_pipeline/speaker_47/47_01_neu_from_hap__donor-contours__features-pitch-loudness-duration__20260822-193735.wav" "outputs/web_examples/praat_neu-to-hap.wav"
+Copy-Item "outputs/praat_pipeline/speaker_47/47_01_neu_from_sad__donor-contours__features-pitch-loudness-duration__20260822-193735.wav" "outputs/web_examples/praat_neu-to-sad.wav"
+```
+
+Run the notebooks in this order:
+
+1. `analysis/dnsmos_all_audio_analysis.ipynb` scores the 150 originals, 149
+   vowel-edit outputs, and 99 Praat outputs and creates the 3×3 average table.
+2. `analysis/dnsmos_web_examples.ipynb` requires exactly 11 example WAVs,
+   creates `outputs/dnsmos/web_example_scores.csv`, and generates matching
+   spectrograms under `outputs/web_examples/` and `docs/images/spectrograms/`.
+
+The three full score tables and the average table are written under
+`outputs/dnsmos/`. Every raw score row retains the predicted MOS mean, model
+variance, speaker, sentence, condition, donor emotion, and pinned model details.
+Set `DNSMOS_DEVICE=cuda` to require a GPU, or leave it unset for automatic
+CPU/GPU selection. Set `DNSMOS_FORCE_RECOMPUTE=true` only when every score must
+be regenerated.
+
+### audEERING target movement
+
+Run `analysis/audeering_emotion_scores.ipynb` before
+`analysis/audeering_emotion_analysis.ipynb`. The analysis notebook creates:
+
+- sentence-matched target gains and bootstrap median summaries;
+- two-sided paired ProMoNet–Praat t-tests for happy and sad targets;
+- the annotated three-panel validation figure; and
+- an original-only arousal–valence figure with centroids and 50% covariance
+  data ellipses.
+
+Generated CSVs and figures are saved under `outputs/audEERING/`. The PNG assets
+used by the static website are mirrored under `docs/images/`.
+
+### ElevenLabs comparison screenshot
+
+See `analysis/elevenlabs_screenshot_guide.md` for a repeatable happy/sad prompt
+example and a privacy-safe crop checklist. The screenshot is intentionally not
+committed because the project uses it only as an explanatory comparison, not as
+analysis input.
 
 ## Troubleshooting
 
